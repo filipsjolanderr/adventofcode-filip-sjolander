@@ -1,37 +1,14 @@
-read = open("day2/input2.txt", "r")
+with open("day2/input2.txt", "r") as file:
+    # Read and process lines into a list of integers
+    list_of_numbers = [list(map(int, line.split())) for line in file]
 
-lines = read.readlines()
+number_of_safe = 0
 
-listOfNumbers = []
+for numbers in list_of_numbers:
+    # Check if the list is sorted in ascending or descending order
+    if numbers == sorted(numbers) or numbers == sorted(numbers, reverse=True):
+        # Check the difference condition
+        if all(1 <= abs(numbers[i] - numbers[i+1]) <= 3 for i in range(len(numbers) - 1)):
+            number_of_safe += 1
 
-for line in lines:
-    split = line.split(" ")
-    listOfNumbers.append(split)
-
-#make all numbers to int
-for i in range(len(listOfNumbers)):
-    for j in range(len(listOfNumbers[i])):
-        listOfNumbers[i][j] = int(listOfNumbers[i][j])
-    
-numberOfSafe = 0
-for i in range(len(listOfNumbers)):
-    safe = True
-    
-    sortedList = sorted(listOfNumbers[i])
-    reversedSortedList = sorted(listOfNumbers[i], reverse=True)
-    
-    if listOfNumbers[i] == sortedList or listOfNumbers[i] == reversedSortedList:
-        for j in range(len(listOfNumbers[i])-1):
-            list = listOfNumbers[i]
-            
-            if not(abs(list[j] - list[j+1]) >= 1 and abs(list[j] - list[j+1]) <= 3):
-                safe = False
-    else:
-        safe = False
-    
-    if safe:
-        numberOfSafe += 1
-                       
-                
-print(numberOfSafe)
-                
+print(number_of_safe)
